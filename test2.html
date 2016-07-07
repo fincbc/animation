@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	ul{
+		list-style: none; margin: 0; padding: 0;
+	}
+	#lunbo{
+		width: 500px;
+		height: 400px;
+		margin: 100px auto;
+		position: relative;
+		overflow: hidden;
+	}
+    #lunbo-list{
+    	height: 100%;
+    	width: 1000%;
+    	margin: 0;
+    	padding: 0;
+    	position: absolute;
+    	transition-duration: 0.3s;
+    }
+
+	#lunbo-list li{
+		width: 10%;
+		height: 100%;
+		float: left;
+	}
+
+	#lunbo-list li img{
+		width: 100%;
+		height: 100%;
+	}
+	#lunbo-btn{
+		width: 100%;
+		height: 15px;
+		position: absolute;
+		bottom: 10px;
+		text-align: center;
+	}
+	#lunbo-btn li{
+		width: 15px;
+		height: 15px;
+		background: #999;
+		display: inline-block;
+		margin: 0 8px;
+		border-radius: 10px;
+	}
+	#lunbo-btn li.active{
+		background: #f70;
+	}
+	</style>
+</head>
+<body>
+	<div id="lunbo">
+		<ul id="lunbo-list">
+			<li><img src="./img/1.jpg"></li>
+			<li><img src="./img/2.jpg"></li>
+			<li><img src="./img/3.jpg"></li>
+			<li><img src="./img/4.jpg"></li>
+			<li><img src="./img/5.jpg"></li>
+			<li><img src="./img/1.jpg"></li>
+			<li><img src="./img/2.jpg"></li>
+			<li><img src="./img/3.jpg"></li>
+			<li><img src="./img/4.jpg"></li>
+			<li><img src="./img/5.jpg"></li>
+		</ul>
+        <ul id="lunbo-btn"></ul>
+	</div>
+
+	<script src="move.js"></script>
+	<script>
+		var i, j, res = '';
+
+		function _id(id) {
+			return document.getElementById(id);
+		}
+
+		function _tag(tag, obj) {
+			return (obj || document).getElementsByTagName(tag);
+		}
+
+        var lunboList = _id('lunbo-list');
+        var lunboLi = _tag('li', lunboList);
+        var lunboBtn = _id('lunbo-btn');
+
+        lunboBtn.innerHTML = [].slice.call(lunboLi, 0).map(function(e, i) {
+        	return '<li data-n="'+ i +'"></li>';
+        }).join('');
+
+        var width = lunboList.parentNode.offsetWidth;
+
+        var lastChooseLi;
+        lunboBtn.onmouseover = function(e) {
+        	e = e.target;
+        	if(e.tagName === 'LI') {
+        		if(lastChooseLi) lastChooseLi.className = '';
+	        	lastChooseLi = e;
+	        	e.className = 'active';
+	        	lunboList.style.left = -width*e.dataset.n + 'px';
+        	}
+        }
+	</script>
+</body>
+</html>

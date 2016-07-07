@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	#box{
+		width: 100px;
+		height: 150px;
+		background: #f00;
+		position: absolute;
+		left: 0;
+		/*top: 50px;*/
+	}
+	</style>
+</head>
+<body>
+	<input id="k" type="button" value="开始"  onclick="move()" />
+	<input id="d" type="button" value="停止"  onclick="sotp()" />
+	<div id="box"></div>
+
+	<script>
+	var time;
+	var Box= document.getElementById("box");
+	// var K = document.getElementById('k')
+	// var D = document.getElementById('d')
+	function sotp() {
+		clearInterval(time);
+	}
+
+	function move() {  
+		  
+	   time=setInterval(function() {
+	   	   if(Box.offsetLeft == 400) {
+			clearInterval(time);
+		}
+	   		Box.style.left= Box.offsetLeft + 10 +"px";
+	   },30)
+
+	}
+	</script>
+</body>
+</html>
