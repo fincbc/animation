@@ -29,7 +29,10 @@
 		background-size: cover !important;
 		position: absolute;
 		z-index: 0;
-		transition-duration: .5s;
+		/*transition-duration: .5s;*/
+	}
+	#bg{
+		background-size: cover !important;
 	}
 
 	#btn-box{
@@ -74,10 +77,10 @@
 
 		var n = 10, fgHtml = '', btnHtml = '';
 		for(var i = 0; i < n; i++) {
-			fgHtml += '<div style="left: '+ (i*width) +'px; background: url('+ img[0] +') no-repeat '+ (-i*width) +'px 0px"></div>'
+			fgHtml += '<div style="left: '+ (i*width) +'px; background-position: '+ (-i*width) +'px 0px"></div>'; //<div style="left: '+ (i*width) +'px; background: url('+ img[0] +') no-repeat '+ (-i*width) +'px 0px"></div>'
 		}
 		fg.innerHTML = fgHtml;
-		bg.style.background = 'url('+ img[cur + 1] +') no-repeat';
+		bg.style.background = 'url('+ img[cur] +') no-repeat';
 
 		var piece = fg.getElementsByTagName('div')
 
@@ -90,19 +93,35 @@
 		var btn = btnBox.getElementsByTagName('li');
 
 		btn[cur].className = 'active';
+		var t;
 
-		document.onclick = function() {
-			var i = 0;
+		function change(n) {
+			var i;
+			for(i = 0; i < piece.length; i++) {
+				piece[i].style.top = '0px';
+				piece[i].style.backgroundImage = 'url('+ img[cur] +')';
+			}
+			cur = n >= img.length ? 0 : n;
+			bg.style.background = 'url('+ img[cur] +') no-repeat';
+
+			i = 0;
 			var timer = setInterval(function() {
-				piece[i++].style.top = height + 'px';
-				if(i >= piece.length) clearInterval(timer);
+				var obj = piece[i];
+				move.ease([0, -height], function(v) { obj.style.top = v + 'px'; })
+				if(++i >= piece.length) clearInterval(timer);
 			}, 50);
 		}
 
 		for(var i = 0; i < img.length; i++) {
 			btn[i].index = i;
 			btn[i].onmouseover = function() {
+				if(cur === this.index) return;
+				if(t && Date.now() - t < 1100) return;
+				t = Date.now();
 
+				btn[cur].className = '';
+				this.className = 'active'
+				change(this.index);
 			}
 		}
 
