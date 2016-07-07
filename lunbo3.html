@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	ul{
+		list-style: none; margin: 0; padding: 0;
+	}
+	#lunbo{
+		width: 500px;
+		height: 400px;
+		margin: 100px auto;
+		position: relative;
+		overflow: hidden;
+	}
+    #fg, #bg{
+    	height: 100%;
+    	width: 100%;
+    	margin: 0;
+    	padding: 0;
+    	position: absolute;
+    	/*transition-duration: 0.3s;*/
+    }
+
+	#fg div{
+		width: 10%;
+		height: 100%;
+		background-size: cover !important;
+		position: absolute;
+		z-index: 0;
+		transition-duration: 0.3s;
+	}
+
+	#btn-box{
+		width: 100%;
+		height: 15px;
+		position: absolute;
+		bottom: 10px;
+		text-align: center;
+		z-index: 10000;
+	}
+	#btn-box li{
+		width: 15px;
+		height: 15px;
+		background: #999;
+		display: inline-block;
+		margin: 0 8px;
+		border-radius: 10px;
+	}
+	#btn-box li.active{
+		background: #f70;
+	}
+	</style>
+</head>
+<body>
+	<div id="lunbo">
+		<div id="bg"></div>
+		<div id="fg"></div>
+        <ul id="btn-box"></ul>
+	</div>
+
+	<script src="move.js"></script>
+	<script>
+		var img = ['./img/1.jpg', './img/2.jpg', './img/3.jpg', './img/4.jpg', './img/5.jpg']
+
+		var cur = 0;
+		var n = 10;
+		var fg = document.getElementById('fg');
+		var bg = document.getElementById('bg');
+		var btnBox = document.getElementById('btn-box');
+		var width = fg.offsetWidth/n;
+		var height = fg.offsetHeight;
+
+		var n = 10, fgHtml = '', btnHtml = '';
+		for(var i = 0; i < n; i++) {
+			fgHtml += '<div style="left: '+ (i*width) +'px; background: url('+ img[0] +') no-repeat '+ (-i*width) +'px 0px"></div>'
+		}
+		fg.innerHTML = fgHtml;
+		bg.style.background = 'url('+ img[cur + 1] +') no-repeat';
+
+		var piece = fg.getElementsByTagName('div')
+
+		for(var i = 0; i < img.length; i++) {
+			btnHtml += '<li></li>';
+		}
+		btnBox.innerHTML = btnHtml;
+
+
+		var btn = btnBox.getElementsByTagName('li');
+
+		btn[cur].className = 'active';
+
+		document.onclick = function() {
+			var i = 0;
+			var timer = setInterval(function() {
+				piece[i++].style.top = height + 'px';
+				if(i >= piece.length) clearInterval(timer);
+			}, 50);
+		}
+
+		for(var i = 0; i < img.length; i++) {
+			btn[i].index = i;
+			btn[i].onmouseover = function() {
+
+			}
+		}
+
+		
+       
+	</script>
+</body>
+</html>
